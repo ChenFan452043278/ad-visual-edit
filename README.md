@@ -29,3 +29,35 @@ Required: `true`<br>
 Default: `null`
 
 获取编辑完成的广告列表数据
+
+```html
+<ad-visual-edit ref="advisualedit" :list="list" :postUrl="url" @postModule="getJson"></ad-visual-edit>
+```
+
+```javascript
+created() {
+  let data = {
+    id: this.$route.query.id
+  };
+  screenBindGet(data).then(res => {
+    this.list = res.d;
+    this.$refs.advisualedit.showList(this.list);
+  })
+},
+methods: {
+  getJson(data) {
+    let saveData = {
+      id: this.$route.query.id,
+      data: data
+    }
+    screenBindSave(saveData).then(res => {
+      console.log(res);
+      this.$message({
+        type: 'success',
+        message: res.m
+      });
+      this.$router.push({ path: '/ad-module/screen-config' });
+    })
+  }
+}
+```
